@@ -114,7 +114,7 @@ class SaleController:
                     return status.HTTP_400_BAD_REQUEST, {"message": "Quantidade inválida para a compra."}
                 
                 payment_form = payload.get("payment_form", "")
-                if payment_form not in ["M", "C"]:
+                if payment_form not in ["P", "C"]:
                     return status.HTTP_400_BAD_REQUEST, {"message": "Forma de pagamento inválida."}                    
                 
                 payload.update({
@@ -123,6 +123,10 @@ class SaleController:
                 })
                 
                 sale = Sale.objects.create(**payload)
+                
+                # Diminui estoque ao salvar venda
+                product.current_quantity -= sale.bought_quantity
+                product.save()
                 
                 return status.HTTP_201_CREATED, sale
         except IntegrityError as error:

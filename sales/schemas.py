@@ -23,7 +23,6 @@ class SaleOut(Schema):
     bought_quantity: int
     payment_form: str
     price_on_sale: Decimal
-    status: str
     date: datetime.date
 
 

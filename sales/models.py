@@ -34,7 +34,7 @@ class Product(models.Model):
 
 class Sale(models.Model):
     PAYMENT_FORM_CHOICES = (
-        ('M', _('Money')),
+        ('P', _('PIX')),
         ('C', _('Card'))
     )
     
@@ -48,7 +48,6 @@ class Sale(models.Model):
     bought_quantity = models.IntegerField()
     payment_form = models.CharField(max_length=1, choices=PAYMENT_FORM_CHOICES)
     price_on_sale = models.DecimalField(max_digits=11, decimal_places=2)
-    payment_status = models.CharField(max_length=1, choices=PAYMENT_STATUS_CHOICES, default="P")
     date = models.DateField(auto_now_add=True)
     
     def __str__(self):
