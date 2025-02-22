@@ -68,6 +68,12 @@ class UserController:
             with transaction.atomic():
                 payload = payload.dict()
                 
+                username = payload.get('username')
+                user_with_same_username = User.objects.filter(username=username).first()
+                
+                if user_with_same_username is not None:
+                    return status.HTTP_400_BAD_REQUEST, {"message": "Já existe um registro com esse nome de usuário."}
+                
                 user = User.objects.create_user(**payload, role='P')
                 
                 return status.HTTP_201_CREATED, user
@@ -92,6 +98,12 @@ class UserController:
         try:
             with transaction.atomic():
                 payload = payload.dict()
+                
+                username = payload.get('username')
+                user_with_same_username = User.objects.filter(username=username).exclude(id=request.user.id).first()
+                
+                if user_with_same_username is not None:
+                    return status.HTTP_400_BAD_REQUEST, {"message": "Já existe um registro com esse nome de usuário."}
                 
                 user = get_object_or_404(User, id=request.user.id)
                 
