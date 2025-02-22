@@ -18,6 +18,7 @@ class Species(models.Model):
 class Pet(models.Model):
     STATUS_CHOICES = (
         ('A', _('Available')),
+        ('T', _('Tramit')),
         ('C', _('Chosen')),
     )
     

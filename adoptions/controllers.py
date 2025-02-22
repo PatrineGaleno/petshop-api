@@ -117,6 +117,8 @@ class AdoptionController:
                 payload.update({'customer_id': request.user.id})
                 
                 adoption = Adoption.objects.create(**payload)
+                pet.status = 'T'
+                pet.save()
                 
                 return status.HTTP_201_CREATED, adoption
         except IntegrityError as error:
