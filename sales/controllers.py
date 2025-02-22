@@ -102,24 +102,24 @@ class SaleController:
             with transaction.atomic():
                 payload = payload.dict()
                 
-                product_id = payload.get("product_id", 0)
+                product_id = payload.get('product_id', 0)
                 product = Product.objects.filter(id=product_id).first()
                 
                 if product is None:
-                    return status.HTTP_404_NOT_FOUND, {"message": "Produto não encontrado."}
+                    return status.HTTP_404_NOT_FOUND, {'message': 'Produto não encontrado.'}
                 
-                bought_quantity = payload.get("bought_quantity", 0)
+                bought_quantity = payload.get('bought_quantity', 0)
                 
                 if (bought_quantity <= 0) or (bought_quantity > product.current_quantity):
-                    return status.HTTP_400_BAD_REQUEST, {"message": "Quantidade inválida para a compra."}
+                    return status.HTTP_400_BAD_REQUEST, {'message': 'Quantidade inválida para a compra.'}
                 
-                payment_form = payload.get("payment_form", "")
-                if payment_form not in ["P", "C"]:
-                    return status.HTTP_400_BAD_REQUEST, {"message": "Forma de pagamento inválida."}                    
+                payment_form = payload.get('payment_form', '')
+                if payment_form not in ['P', 'C']:
+                    return status.HTTP_400_BAD_REQUEST, {'message': 'Forma de pagamento inválida.'}                    
                 
                 payload.update({
-                    "customer_id": request.user.id,
-                    "price_on_sale": product.price,
+                    'customer_id': request.user.id,
+                    'price_on_sale': product.price,
                 })
                 
                 sale = Sale.objects.create(**payload)

@@ -4,6 +4,7 @@ from ninja_extra import NinjaExtraAPI
 from auth.controllers import AuthController
 from users.controllers import UserController
 from sales.controllers import (SaleController, ProductController)
+from adoptions.controllers import (AdoptionController, PetController)
 
 
 api = NinjaExtraAPI(
@@ -18,4 +19,6 @@ api.register_controllers(
     UserController,
     SaleController,
     ProductController,
+    AdoptionController,
+    PetController,
 )
